@@ -21,12 +21,15 @@
       register: output
     - name: read the output
       debug:
-        var: output
+        msg: "Hello from ansible  this is running on {{ ansible_os_family }}"
     - name: create directory
       file:
         path: /tmp/ansible
         state: directory
         mode: '0777'
+      tags:
+        - app1
+        - c1
 
     - name: installs
       package:
