@@ -1,0 +1,41 @@
+---
+- hosts: devserver
+  become: yes
+  ignore_errors: True
+
+  tasks:
+    - name: Install required packages
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - unzip
+        - wget
+        - httpd
+      become: true
+
+    - name: Download resume archive
+      get_url:
+        url: "https://github.com/utrains/static-resume/archive/refs/heads/main.zip"
+        dest: "/tmp/main.zip"
+      become: true
+
+    - name: Unzip resume archive
+      unarchive:
+        src: "/tmp/main.zip"
+        dest: "/tmp"
+      become: true
+
+    - name: Copy resume files to web server directory
+      copy:
+        src: "/tmp/static-resume-main/iPortfolio/"
+        dest: "/var/www/html/"
+        remote_src: true
+      become: true
+
+    - name: Start and enable httpd service
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+      become: true

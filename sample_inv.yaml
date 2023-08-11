@@ -1,10 +1,10 @@
 qaserver:
   hosts:
-    35.175.245.236:
+    174.129.82.246:
 
 devserver:
   hosts:
-    3.239.244.100:
+    3.236.162.90:
 
 devqa:
   children:

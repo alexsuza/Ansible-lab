@@ -1,0 +1,37 @@
+---
+- hosts: devserver
+  become: yes
+  ignore_errors: True
+  vars:
+    username: alex
+    pkg_name: httpd
+    item: softwares
+  tasks:
+    - name: Creating user
+      user:
+        name: "{{ username }}"
+        comment: alex admin
+        shell: /bin/bash
+        # when: ansible_os_family == "Redhat"
+
+    - name: create file
+      file:
+        path: /tmp/ansible2.txt
+        state: touch
+        mode: '0600'
+
+    - name: create directory
+      file:
+        path: /tmp/ansible
+        state: directory
+        mode: '0777'
+
+    - name: installs
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wget
+        - samba
+        - mysql
+        - finger
