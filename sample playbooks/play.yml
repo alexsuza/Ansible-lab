@@ -13,13 +13,15 @@
         comment: alex admin
         shell: /bin/bash
         # when: ansible_os_family == "Redhat"
-
     - name: create file
       file:
         path: /tmp/ansible2.txt
         state: touch
         mode: '0600'
-
+      register: output
+    - name: read the output
+      debug:
+        var: output
     - name: create directory
       file:
         path: /tmp/ansible
